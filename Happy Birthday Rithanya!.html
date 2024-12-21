@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Rithanya</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(120deg, #f3d9fa, #fde2e4, #e0f7fa);
+            color: black;
+        }
+
+        #main-entry {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .dialog-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border: 2px solid #ff6f61;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+            margin: auto;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .dialog-box:hover {
+            transform: scale(1.05);
+        }
+
+        .options button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #ff6f61;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .options button:hover {
+            background-color: #ff3e2e;
+        }
+
+        .cake {
+            font-size: 300px; /* Larger cake emoji */
+            width: 300px;
+            height: 300px;
+            background-color: pink;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .cake:hover {
+            transform: scale(1.1);
+        }
+
+        .circle-progress {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            border: 10px solid orange;
+            clip-path: circle(0%);
+            transition: clip-path 0.3s ease;
+        }
+
+        .candle {
+            width: 20px;
+            height: 40px;
+            background-color: orange;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .blackout {
+            background-color: black;
+            color: white;
+        }
+
+        .lit-area {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: yellow;
+            border-radius: 50%;
+            box-shadow: 0 0 10px yellow;
+            animation: shoot 2s linear infinite;
+        }
+
+        @keyframes shoot {
+            from {
+                top: -10%;
+                left: 110%;
+            }
+            to {
+                top: 110%;
+                left: -10%;
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            animation: fall 3s linear infinite;
+            z-index: 5;
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(-100vh);
+            }
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        #popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+        }
+
+        #popup .popup-content {
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 18px;
+        }
+
+        #confetti-container {
+            z-index: 2;
+        }
+
+        #robot-question {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-entry">
+        <span style="font-size: 50px; cursor: pointer;">🐼</span>
+    </div>
+
+    <div id="dialog-container" class="hidden">
+        <div class="centered">
+            <div class="dialog-box">
+                <p id="dialog-text">Are you Rithanya?</p>
+                <div class="options">
+                    <button id="yes-button">Yes</button>
+                    <button id="no-button">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dark-page" class="hidden blackout">
+        <div class="centered">
+            <div class="dialog-box">
+                <p id="robot-question">Are you a Robot?</p>
+                <div class="options">
+                    <button id="robot-yes">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cake-stage" class="hidden">
+        <div class="centered">
+            <div class="cake" id="cake-one">🎂</div>
+            <div class="circle-progress" id="circle-progress-one"></div>
+        </div>
+    </div>
+
+    <div id="second-cake-stage" class="hidden">
+        <div class="centered">
+            <div class="cake" id="cake-two">🎂</div>
+            <div class="circle-progress" id="circle-progress-two"></div>
+        </div>
+    </div>
+
+    <div id="third-cake-stage" class="hidden">
+        <div class="centered">
+            <div class="cake" id="cake-three">🎂</div>
+            <div class="circle-progress" id="circle-progress-three"></div>
+            <div class="candle hidden" id="candle"></div>
+        </div>
+    </div>
+
+    <div id="final-stage" class="hidden">
+        <div class="centered">
+            <div class="dialog-box">
+                <p>Wow! I didn't expect that from you... Wait! No, you're the princess of light! 🌟👸✨</p>
+                <button id="continue-button">Continue ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="gift-stage" class="hidden">
+        <div class="centered">
+            <div class="dialog-box">
+                <p>One Earth, Seven Seas, Seven Continents, 196 Countries, 7 Billion People... And somehow I was lucky enough to meet you! 🌍❤️✨</p>
+            </div>
+            <div class="dialog-box">
+                <button id="gift-button">🎁 Open Gift</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup">
+        <div class="popup-content">
+            <h1>Happy Birthday Rithanya! 🎉</h1>
+            <p>This is from Foxxy 🦊</p>
+        </div>
+    </div>
+
+    <div id="confetti-container" class="hidden"></div>
+
+    <script>
+        const mainEntry = document.querySelector('#main-entry');
+        const dialogContainer = document.querySelector('#dialog-container');
+        const darkPage = document.querySelector('#dark-page');
+        const cakeStage = document.querySelector('#cake-stage');
+        const secondCakeStage = document.querySelector('#second-cake-stage');
+        const thirdCakeStage = document.querySelector('#third-cake-stage');
+        const finalStage = document.querySelector('#final-stage');
+        const giftStage = document.querySelector('#gift-stage');
+        const confettiContainer = document.querySelector('#confetti-container');
+        const popup = document.querySelector('#popup');
+
+        mainEntry.addEventListener('click', () => {
+            mainEntry.classList.add('hidden');
+            dialogContainer.classList.remove('hidden');
+        });
+
+        document.querySelector('#yes-button').addEventListener('click', () => {
+            dialogContainer.classList.add('hidden');
+            darkPage.classList.remove('hidden');
+        });
+
+        document.querySelector('#no-button').addEventListener('click', () => {
+            location.reload();
+        });
+
+        document.querySelector('#robot-yes').addEventListener('click', () => {
+            darkPage.classList.add('hidden');
+            cakeStage.classList.remove('hidden');
+        });
+
+        document.querySelector('#cake-one').addEventListener('click', () => {
+            const circleProgress = document.querySelector('#circle-progress-one');
+            circleProgress.style.clipPath = 'circle(50%)';
+            setTimeout(() => {
+                cakeStage.classList.add('hidden');
+                secondCakeStage.classList.remove('hidden');
+            }, 500);
+        });
+
+        document.querySelector('#cake-two').addEventListener('click', () => {
+            const circleProgress = document.querySelector('#circle-progress-two');
+            circleProgress.style.clipPath = 'circle(50%)';
+            setTimeout(() => {
+                secondCakeStage.classList.add('hidden');
+                thirdCakeStage.classList.remove('hidden');
+            }, 500);
+        });
+
+        document.querySelector('#cake-three').addEventListener('click', () => {
+            const circleProgress = document.querySelector('#circle-progress-three');
+            circleProgress.style.clipPath = 'circle(50%)';
+            document.querySelector('#candle').classList.remove('hidden');
+            setTimeout(() => {
+                thirdCakeStage.classList.add('hidden');
+                finalStage.classList.remove('hidden');
+            }, 1000);
+        });
+
+        document.querySelector('#continue-button').addEventListener('click', () => {
+            finalStage.classList.add('hidden');
+            giftStage.classList.remove('hidden');
+        });
+
+        document.querySelector('#gift-button').addEventListener('click', () => {
+            popup.style.display = 'flex';
+            giftStage.classList.add('hidden');
+            generateConfetti();
+        });
+
+        function generateConfetti() {
+            confettiContainer.classList.remove('hidden');
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confettiContainer.appendChild(confetti);
+            }
+        }
+    </script>
+</body>
+</html>
